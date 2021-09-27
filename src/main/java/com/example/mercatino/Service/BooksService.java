@@ -8,6 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import java.util.List;
+
+import java.awt.print.Book;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/mercatino/books")
@@ -21,9 +25,11 @@ public class BooksService {
 
     @PostMapping("/addbook/{id}")
     private ResponseEntity<Books> addNewBook(@RequestBody Books book , @PathVariable("id")Long id){
+        User user = repositoryUser.getById(id);
         if(repositoryUser.findById(id).isPresent()){
-            User user = repositoryUser.getById(id);
-            user.getBookList().clear();
+            if(user.getBookList().size()<2){
+
+            }
             user.getBookList().add(book);
             return new ResponseEntity(repositoryUser.save(user) , HttpStatus.OK);
         }
@@ -33,7 +39,7 @@ public class BooksService {
     @PutMapping("updatebook/{id}")
     private ResponseEntity<Books> updateBooks(@RequestBody Books book,@PathVariable("id")Long id){
         if(repositoryBooks.findById(id).isPresent()){
-            Books newbook = new Books();
+            Books newbook = repositoryBooks.findById(id).get();
 
             newbook.setTitle(book.getTitle());
             newbook.setSubject(book.getSubject());
@@ -41,6 +47,7 @@ public class BooksService {
             newbook.setPublisher(book.getPublisher());
             newbook.setPrice(book.getPrice());
             newbook.setIsbn(book.getIsbn());
+            newbook.setQuantity(book.getQuantity());
             return  new ResponseEntity(repositoryBooks.save(newbook) , HttpStatus.OK);
         }
 
@@ -60,10 +67,17 @@ public class BooksService {
         return new ResponseEntity(null , HttpStatus.NOT_FOUND);
     }
 
-    @DeleteMapping("/deletebook/{id}")
-    private ResponseEntity<Books> deleteBooks(@PathVariable("id")Long id){
-        if (repositoryBooks.findById(id).isPresent()){
-            repositoryBooks.deleteById(id);
+    @DeleteMapping("/deletebook")
+    private ResponseEntity<Books> deleteBooks(@RequestParam Long idUser , @RequestParam Long idBook){
+        Optional<Books> checkBook = repositoryBooks.findById(idBook);
+        if (checkBook.isPresent()){
+            Books book = checkBook.get();
+
+            User user = repositoryUser.findById(idUser).get();
+            user.getBookList().remove(book);
+            repositoryUser.save(user);
+
+            repositoryBooks.deleteById(idBook);
             return new ResponseEntity(null , HttpStatus.OK);
         }
         return new ResponseEntity(null , HttpStatus.NOT_FOUND);

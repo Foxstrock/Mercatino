@@ -29,10 +29,6 @@ public class Books {
 
     Long Quantity;
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @ApiModelProperty(required = false ,hidden = true)
-    List<User> userList;
-
 
     public Books(Long idBook, String title, String publisher, String isbn, String subject, String school, Double price, Long quantity, List<User> userList) {
         this.idBook = idBook;
@@ -43,7 +39,6 @@ public class Books {
         this.school = school;
         this.price = price;
         Quantity = quantity;
-        this.userList = userList;
     }
 
     public Long getQuantity() {
@@ -52,14 +47,6 @@ public class Books {
 
     public void setQuantity(Long quantity) {
         Quantity = quantity;
-    }
-
-    public List<User> getUserList() {
-        return userList;
-    }
-
-    public void setUserList(List<User> userList) {
-        this.userList = userList;
     }
 
     public Books() {
