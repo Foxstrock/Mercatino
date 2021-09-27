@@ -9,5 +9,4 @@ public class MercatinoApplication {
     public static void main(String[] args) {
         SpringApplication.run(MercatinoApplication.class, args);
     }
-
 }
