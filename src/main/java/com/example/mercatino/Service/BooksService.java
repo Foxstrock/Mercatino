@@ -55,7 +55,7 @@ public class BooksService {
     }
 
     @GetMapping("/getallbook")
-    private ResponseEntity<Books> getAllBooks(){
+    private ResponseEntity<List<Books>>getAllBooks(){
         return new ResponseEntity(repositoryBooks.findAll() , HttpStatus.OK);
     }
 
@@ -63,6 +63,15 @@ public class BooksService {
     private ResponseEntity<Books> getBookInfo(@PathVariable("id")Long id){
         if(repositoryBooks.findById(id).isPresent()){
             return new ResponseEntity(repositoryBooks.findById(id) , HttpStatus.OK);
+        }
+        return new ResponseEntity(null , HttpStatus.NOT_FOUND);
+    }
+
+    @GetMapping("/getbookbytitle/{title}")
+    private ResponseEntity<List<Books>> getBookByTitle(String title){
+        if(repositoryBooks.findByTitle(title).isPresent()){
+            List<Books> bookList = repositoryBooks.findByTitle(title).get();
+            return new ResponseEntity( bookList, HttpStatus.OK);
         }
         return new ResponseEntity(null , HttpStatus.NOT_FOUND);
     }

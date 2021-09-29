@@ -24,6 +24,13 @@
                 <activatedProperties>svil</activatedProperties>
             </properties>
         </profile>
+        <profile>
+            <id>deploy-svil</id>
+            <properties>
+                <rp.build.warname>deploy-svil</rp.build.warname>
+                <activatedProperties>deploy</activatedProperties>
+            </properties>
+        </profile>
     </profiles>
 
     <dependencies>
