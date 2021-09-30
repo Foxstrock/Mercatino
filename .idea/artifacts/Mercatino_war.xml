@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="Mercatino:war">
+    <output-path>$USER_HOME$/Desktop/App Mercatino</output-path>
+    <root id="archive" name="Mercatino_war.war">
+      <element id="artifact" artifact-name="Mercatino:war exploded" />
+    </root>
+  </artifact>
+</component>

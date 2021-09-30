@@ -25,12 +25,12 @@ public class Books {
 
     String school;
 
-    Double price;
+    String price;
 
     Long Quantity;
 
 
-    public Books(Long idBook, String title, String publisher, String isbn, String subject, String school, Double price, Long quantity, List<User> userList) {
+    public Books(Long idBook, String title, String publisher, String isbn, String subject, String school, String price, Long quantity, List<User> userList) {
         this.idBook = idBook;
         this.title = title;
         this.publisher = publisher;
@@ -100,11 +100,11 @@ public class Books {
         this.school = school;
     }
 
-    public Double getPrice() {
+    public String getPrice() {
         return price;
     }
 
-    public void setPrice(Double price) {
+    public void setPrice(String price) {
         this.price = price;
     }
 }

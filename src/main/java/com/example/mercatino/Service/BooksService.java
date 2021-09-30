@@ -76,6 +76,15 @@ public class BooksService {
         return new ResponseEntity(null , HttpStatus.NOT_FOUND);
     }
 
+    @GetMapping("/getbookbyisbn/{isbn}")
+    private ResponseEntity<List<Books>> getBookByIsbn(String isbn){
+        if(repositoryBooks.findByIsbn(isbn).isPresent()){
+            List<Books> bookList = repositoryBooks.findByIsbn(isbn).get();
+            return new ResponseEntity( bookList, HttpStatus.OK);
+        }
+        return new ResponseEntity(null , HttpStatus.NOT_FOUND);
+    }
+
     @DeleteMapping("/deletebook")
     private ResponseEntity<Books> deleteBooks(@RequestParam Long idUser , @RequestParam Long idBook){
         Optional<Books> checkBook = repositoryBooks.findById(idBook);
