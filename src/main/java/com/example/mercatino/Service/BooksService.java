@@ -27,9 +27,6 @@ public class BooksService {
     private ResponseEntity<Books> addNewBook(@RequestBody Books book , @PathVariable("id")Long id){
         User user = repositoryUser.getById(id);
         if(repositoryUser.findById(id).isPresent()){
-            if(user.getBookList().size()<2){
-
-            }
             user.getBookList().add(book);
             return new ResponseEntity(repositoryUser.save(user) , HttpStatus.OK);
         }
@@ -66,6 +63,23 @@ public class BooksService {
         }
         return new ResponseEntity(null , HttpStatus.NOT_FOUND);
     }
+
+    @GetMapping("/searchbytitle/{title}")
+    private ResponseEntity<Books> getBookByTitle(@PathVariable("title")String title){
+        if(repositoryBooks.findByTitle(title).isPresent()){
+            return new ResponseEntity(repositoryBooks.findByTitle(title) , HttpStatus.OK);
+        }
+        return new ResponseEntity(null , HttpStatus.NOT_FOUND);
+    }
+
+    @GetMapping("/searchbyisbn/{isbn}")
+    private ResponseEntity<Books> getBookByIsbn(@PathVariable("isbn")String isbn){
+        if(repositoryBooks.findByIsbn(isbn).isPresent()){
+            return new ResponseEntity(repositoryBooks.findByIsbn(isbn) , HttpStatus.OK);
+        }
+        return new ResponseEntity(null , HttpStatus.NOT_FOUND);
+    }
+
 
     @DeleteMapping("/deletebook")
     private ResponseEntity<Books> deleteBooks(@RequestParam Long idUser , @RequestParam Long idBook){
